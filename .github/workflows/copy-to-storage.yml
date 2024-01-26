@@ -13,14 +13,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Azure CLI
-        uses: azure/cli@v2
-        with:
-          azcliversion: '2.29.0'
+      - name: Set TAG variable
+        run: echo "TAG=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
 
       - name: Login to Azure
         run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
       - name: Copy files to Azure Storage
         run: |
-          az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} --destination ${{ secrets.CONTAINER_NAME }} --source $GITHUB_WORKSPACE --pattern '*.tf'
+          az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} --destination ${{ secrets.CONTAINER_NAME }}/$TAG --source $GITHUB_WORKSPACE --pattern '*.tf'
+     
+      - name: Copy files to Azure Storage
+        run: |
+          az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME2 }} --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY2 }} --destination ${{ secrets.CONTAINER_NAME2 }}/ --source $GITHUB_WORKSPACE --pattern '*.html'
