@@ -39,3 +39,19 @@ resource "azurerm_storage_account" "storage_account_blob" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
+
+resource "azurerm_storage_container" "webapp" {
+  name                  = "webapp"
+  storage_account_name  = "terrablobapp"
+  container_access_type = "blob"
+}
+
+resource "azurerm_storage_blob" "webappblob" {
+  name                   = "webappblob"
+  storage_account_name   = "terrablobapp"
+  storage_container_name = "webapp"
+  type                   = "Block"
+  content_type           = "text/html"
+  source                 = "\source\index.html"
+}
+
