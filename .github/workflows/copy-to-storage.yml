@@ -20,4 +20,4 @@ jobs:
 
       - name: Copy files to Azure Storage
         run: |
-          az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} --destination ${{ secrets.CONTAINER_NAME }} --source $GITHUB_WORKSPACE --pattern '*.tf'
+          az storage blob upload-batch --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT_NAME }} --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} --destination ${{ secrets.CONTAINER_NAME }}/testversion --source $GITHUB_WORKSPACE --pattern '*.tf'
